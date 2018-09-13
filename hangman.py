@@ -6,6 +6,7 @@ import turtle
 # Function to draw hangman
 def draw(l):
     import turtle
+
     turtle.pensize(3)
     turtle.speed(10)
 
@@ -77,7 +78,7 @@ def draw(l):
 
 # function to create random word to guess in 1 player mode
 def create_word():
-    with open('./dictionary.txt', "r") as text:
+    with open("./dictionary.txt", "r") as text:
         word_list = [t.strip() for t in text]
 
     return random.choice(word_list).lower()
@@ -98,7 +99,7 @@ def main():
     win = False
 
     while play:
-        prompt = input('\nWelcome to Hangman!\n1 or 2 players? ')
+        prompt = input("\nWelcome to Hangman!\n1 or 2 players? ")
 
         # Draw hangman canvas
         turtle.title("Hangman")
@@ -118,17 +119,19 @@ def main():
 
         try:
             while eval(prompt) not in [1, 2]:
-                prompt = input('Invalid input.\n1 or 2 players? ')
+                prompt = input("Invalid input.\n1 or 2 players? ")
 
         except (SyntaxError, NameError):
-            while prompt not in ['1', '2']:
-                prompt = input('Invalid input.\n1 or 2 players? ')
+            while prompt not in ["1", "2"]:
+                prompt = input("Invalid input.\n1 or 2 players? ")
 
         if eval(prompt) == 1:
             target_word = create_word()
 
         elif eval(prompt) == 2:
-            target_word = turtle.textinput('Text Box', 'Insert text for player to guess!')
+            target_word = turtle.textinput(
+                "Text Box", "Insert text for player to guess!"
+            )
             # target_word = input('Create word for player to guess: ')
             # print('\n' * 50)
 
@@ -136,40 +139,40 @@ def main():
         lives = 10
 
         # variable used to present to player; filled in as player guesses correctly
-        if target_word.count(' '):
-            space_indices = [i for i, x in enumerate(list(target_word)) if x == ' ']
+        if target_word.count(" "):
+            space_indices = [i for i, x in enumerate(list(target_word)) if x == " "]
 
-            fill_word = list(len(target_word) * '_')
+            fill_word = list(len(target_word) * "_")
 
             for i in space_indices:
-                fill_word[i] = ' '
+                fill_word[i] = " "
         else:
-            fill_word = list(len(target_word) * '_')
+            fill_word = list(len(target_word) * "_")
 
         # maintain list of already guessed letters and phrases
         already_guessed = []
 
         while lives > 0:
-            print('\n\t' + ''.join(fill_word) + '\n')
+            print("\n\t" + "".join(fill_word) + "\n")
 
-            display_guessed = ' '.join(already_guessed)
+            display_guessed = " ".join(already_guessed)
 
-            print(f'Already guessed letters: {display_guessed}')
+            print(f"Already guessed letters: {display_guessed}")
 
-            guess = input('Enter guess (type exit() to quit game) :\n-->\t').strip()
+            guess = input("Enter guess (type exit() to quit game) :\n-->\t").strip()
 
             # exit game
-            if guess == 'exit()':
+            if guess == "exit()":
                 win = True
                 break
 
-            while not guess.isalnum() or guess == '':
-                guess = input('Enter guess (type exit() to quit game) :\n-->\t').strip()
+            while not guess.isalnum() or guess == "":
+                guess = input("Enter guess (type exit() to quit game) :\n-->\t").strip()
 
             # if player already guessed letter or phrase
             while guess in already_guessed:
-                print('Already guessed that. Try something else!')
-                guess = input('Enter guess (type exit() to quit game) :\n-->\t').strip()
+                print("Already guessed that. Try something else!")
+                guess = input("Enter guess (type exit() to quit game) :\n-->\t").strip()
 
             # if player's guess is a match
             if re.search(guess, target_word):
@@ -183,7 +186,7 @@ def main():
                     for i in match_list:
                         fill_word[i] = letter
 
-                print(f'\nMatch found! {lives} lives remaining.')
+                print(f"\nMatch found! {lives} lives remaining.")
 
             # if player's guess does not match
             elif not re.search(guess, target_word):
@@ -192,24 +195,24 @@ def main():
                     lives -= 1
                     draw(lives)
 
-                    print(f'No match. Lose a life. {lives} lives remaining.')
+                    print(f"No match. Lose a life. {lives} lives remaining.")
 
                 else:
-                    print(f'No match. {lives} lives remaining.')
+                    print(f"No match. {lives} lives remaining.")
 
             # if player guesses target correctly
-            if ''.join(fill_word) == target_word:
+            if "".join(fill_word) == target_word:
                 win = True
-                print('\n\t' + ''.join(fill_word) + '\n')
-                print('Congrats! You win!')
+                print("\n\t" + "".join(fill_word) + "\n")
+                print("Congrats! You win!")
                 break
 
         if win is False:
-            print(f'\nSorry, you lost. The correct answer was:\n\n\t{target_word}')
+            print(f"\nSorry, you lost. The correct answer was:\n\n\t{target_word}")
 
-        play_again = input('\nPlay again (yes/no)? ')
+        play_again = input("\nPlay again (yes/no)? ")
 
-        if play_again == 'yes':
+        if play_again == "yes":
             turtle.reset()
             turtle.ht()
             win = False
@@ -217,7 +220,7 @@ def main():
         else:
             play = False
 
-    print('\nThanks for playing!\n')
+    print("\nThanks for playing!\n")
     turtle.bye()
 
 
